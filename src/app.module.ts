@@ -3,17 +3,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BotModule } from './bot/bot.module';
-import { TaskModule } from './task/task.module';
+import { BotService } from './bot/bot.service';
 import { SchedulerModule } from './scheduler/scheduler.module';
+import { SchedulerService } from './scheduler/scheduler.service';
+import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [
-    BotModule,
     TaskModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
     }),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
@@ -27,8 +29,7 @@ import { SchedulerModule } from './scheduler/scheduler.module';
         synchronize: true,
       }),
     }),
-    ScheduleModule.forRoot(),
-    SchedulerModule,
   ],
+  providers: [BotService, SchedulerService],
 })
 export class AppModule {}
