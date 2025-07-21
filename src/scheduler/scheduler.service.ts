@@ -15,6 +15,7 @@ export class SchedulerService {
   async handleReminders() {
     const now = dayjs().format('YY.MM.DD HH:mm');
     const tasks = await this.taskService.findReminders(now);
+    
     for (const task of tasks) {
       await this.botService.sendReminder(
         task.userId,

@@ -9,5 +9,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 @Module({
   imports: [TaskModule, TypeOrmModule.forFeature([Task]), ConfigModule],
   providers: [BotService],
+  exports: [BotService]
 })
 export class BotModule {}
